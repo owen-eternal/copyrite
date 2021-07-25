@@ -1,6 +1,5 @@
-from rest_framework.serializers import Serializer
 from .models import Track
-from rest_framework import viewsets, routers
+from rest_framework import viewsets
 from .serializers import TrackSerializer
 
 class TrackViewSets(viewsets.ModelViewSet):
