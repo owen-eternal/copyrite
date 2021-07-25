@@ -6,6 +6,3 @@ from .serializers import TrackSerializer
 class TrackViewSets(viewsets.ModelViewSet):
     queryset = Track.objects.all()
     serializer_class = TrackSerializer
-
-router = routers.DefaultRouter()
-router.register('tracks', TrackViewSets)
