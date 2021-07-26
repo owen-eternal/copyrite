@@ -1,12 +1,11 @@
+from copyrite.viewsets import TrackViewSets
 from copyrite.serializers import TrackSerializer
 from rest_framework import status
 from copyrite.models import Album, Artist, Track
-from django.urls.base import reverse
+from django.urls.base import resolve, reverse
 from rest_framework.test import APITestCase
 
 class TestTrackApi(APITestCase):
-
-    track_url = reverse('track-list')
 
     def setUp(self):
 
@@ -23,20 +22,46 @@ class TestTrackApi(APITestCase):
     def tearDown(self):
         pass
 
-    def test_tracklist(self):
+
+    #mixin for both get requests.
+    def get_requests(self, payload, url):
+
+        self.assertEqual(payload.status_code, status.HTTP_200_OK)
+
+        self.assertEquals(resolve(url).func.__name__, TrackViewSets.__name__)
+
+        return [self.track_1, self.track_2]
+
+
+    def test_get_track_list(self):
+
+        #Absolute link
+        track_url = reverse('track-list')
 
         #fetch data 
-        get_payload = self.client.get(self.track_url)
+        get_payload = self.client.get(track_url)
 
-        #check for status code.
-        self.assertEqual(get_payload.status_code, status.HTTP_200_OK)
-
-        #check if the get_payload is a list
+        #check if its a list
         self.assertIsInstance(get_payload.json(), list)
 
-        #list of querysets
-        queryset = [self.track_1, self.track_2]
+        #run first tests
+        queryset = self.get_requests(get_payload, track_url)
     
         for id in range(len(queryset)):
             self.assertEqual(TrackSerializer(instance=queryset[id]).data, get_payload.json()[id])
+    
+    def test_get_single_track(self):
+
+        #get obsolute link
+        track_url = reverse('track-detail', kwargs={'pk': '1'})
+
+        #get individual track payload.
+        get_payload = self.client.get(track_url)
+
+        #run first tests
+        queryset = self.get_requests(get_payload, track_url)
+
+        #check data integrity
+        self.assertEqual(TrackSerializer(instance=queryset[0]).data, get_payload.json())
+
         
