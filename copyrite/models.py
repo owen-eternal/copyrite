@@ -1,11 +1,13 @@
 from django.db import models
 
+
 class Artist(models.Model):
     artist_name = models.CharField(max_length=50)
     record_label = models.CharField(max_length=50)
 
     def __str__(self) -> str:
         return self.artist_name
+
 
 class Album(models.Model):
     album_name = models.CharField(max_length=50)
@@ -15,6 +17,7 @@ class Album(models.Model):
 
     def __str__(self) -> str:
         return self.album_name
+
 
 class Track(models.Model):
     title = models.CharField(max_length=50)
