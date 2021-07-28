@@ -5,9 +5,9 @@ name: Copyrite tests
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -27,7 +27,7 @@ jobs:
     - name: Lint with flake8
       run: |
         flake8
-    - name: Test with DRF
+    - name: Test with coverage
       run: |
         pip install coverage
         coverage run manage.py test
