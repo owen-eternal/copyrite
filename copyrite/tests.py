@@ -1,12 +1,9 @@
-import json
-from datetime import datetime
-from django.test.testcases import TestCase
 from copyrite.viewsets import TrackViewSets
 from copyrite.serializers import TrackSerializer
 from rest_framework import status
 from copyrite.models import Album, Artist, Track
 from django.urls.base import resolve, reverse
-from rest_framework.test import APIClient, APITestCase
+from rest_framework.test import APITestCase
 
 
 class TestTrackApi(APITestCase):
@@ -14,20 +11,24 @@ class TestTrackApi(APITestCase):
     def setUp(self):
 
         artist_1 = Artist.objects.create(artist_name='Yungengod',
-                            record_label='kolumbus beatz')
+                                         record_label='kolumbus beatz')
+
         album_1 = Album.objects.create(album_name='omnipresence',
-                            release_date='2021-03-03', artist=artist_1)
-        self.track_1 = Track.objects.create(title='draftwork', duration=3,
-                            genre='hiphop', album=album_1)
+                                       release_date='2021-03-03', artist=artist_1)
+
+        self.track_1 = Track.objects.create(title='draftwork',
+                                            duration=3, genre='hiphop', album=album_1)
 
         #####################################################################################################
 
         artist_2 = Artist.objects.create(artist_name='YungenGod',
-                            record_label='Kolumbus Beats')
+                                         record_label='Kolumbus Beats')
+
         album_2 = Album.objects.create(album_name='omnipresence',
-                            release_date='2021-03-03', artist=artist_2)
+                                       release_date='2021-03-03', artist=artist_2)
+
         self.track_2 = Track.objects.create(title='Itches On My Hind',
-                            duration=4, genre='hiphop', album=album_2)
+                                            duration=4, genre='hiphop', album=album_2)
 
         #####################################################################################################
 
@@ -35,22 +36,22 @@ class TestTrackApi(APITestCase):
 
         self.track_payload = [
 
-            # valid payload data 
-            { 
+            # valid payload data
+            {
                 "id": 3,
-                "title" : "going high",
-                "duration" : 3,
-                "genre" : "hip-hop",
-                "album" : 2
+                "title": "going high",
+                "duration": 3,
+                "genre": "hip-hop",
+                "album": 2
             },
 
             # testing payload data
-            { 
+            {
                 "id": 3,
-                "title" : "going high",
-                "duration" : 3,
-                "genre" : "hip-hop",
-                "album" : 2
+                "title": "going high",
+                "duration": 3,
+                "genre": "hip-hop",
+                "album": 2
             }
         ]
 
@@ -104,15 +105,12 @@ class TestTrackApi(APITestCase):
         self.assertEqual(str(queryset[0]), 'draftwork')
 
         # check data integrity
-        self.assertEqual(TrackSerializer(instance=queryset[0]).data, 
-                        get_payload.json())
+        self.assertEqual(TrackSerializer(instance=queryset[0]).data, get_payload.json())
 
     def test_create_track(self):
 
         # create post request to the backend
-        response = self.client.post(reverse('track-list'), 
-                    data=self.track_payload[0], 
-                    format='json')
+        response = self.client.post(reverse('track-list'), data=self.track_payload[0], format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
@@ -131,7 +129,6 @@ class TestTrackApi(APITestCase):
 class TestDataBase(APITestCase):
 
     def setUp(self):
-        
         # dummy data
         self.artist = Artist.objects.create(artist_name='Yungengod', record_label='kolumbus beatz')
 
