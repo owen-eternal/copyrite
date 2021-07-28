@@ -32,7 +32,7 @@ class TestTrackApi(APITestCase):
         #####################################################################################################
 
         """DATA FOR TEST REQUEST"""
-        
+
         self.track_payload = [
 
             # valid payload data 
@@ -131,7 +131,8 @@ class TestTrackApi(APITestCase):
 class TestDataBase(APITestCase):
 
     def setUp(self):
-        # dummie data
+        
+        # dummy data
         self.artist = Artist.objects.create(artist_name='Yungengod', record_label='kolumbus beatz')
 
     def test_model_instance(self):
